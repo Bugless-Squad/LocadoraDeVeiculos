@@ -18,12 +18,12 @@ namespace LocadoraDeVeiculos.WinApp.ModuloCupomEParceiro
         public ControladorParceiro(IRepositorioParceiro repositorioParceiro, ServicoParceiro servicoParceiro)
         {
             this.repositorioParceiro = repositorioParceiro;
-            this.repositorioParceiro = repositorioParceiro;
+            this.servicoParceiro = servicoParceiro;
         }
 
         public override void Inserir()
         {
-            TelaParceiroForm tela = new();
+            TelaParceiroForm tela = new TelaParceiroForm();
 
             tela.onGravarRegistro += servicoParceiro.Inserir;
 
@@ -31,11 +31,12 @@ namespace LocadoraDeVeiculos.WinApp.ModuloCupomEParceiro
 
             DialogResult resultado = tela.ShowDialog();
 
-            if(resultado == DialogResult.OK)
+            if (resultado == DialogResult.OK)
             {
                 CarregarParceiros();
             }
         }
+
 
         public override void Editar()
         {

@@ -36,17 +36,20 @@ namespace LocadoraDeVeiculos.WinApp.ModuloCupomEParceiro
         {
             this.parceiro = ObterParceiro();
 
-            Result resultado = onGravarRegistro(parceiro);
-
-            if(resultado.IsFailed)
+            if (onGravarRegistro != null)
             {
-                string erro = resultado.Errors[0] .Message;
+                Result resultado = onGravarRegistro(parceiro);
 
-                TelaPrincipalForm.Tela.AtualizarRodape(erro);
 
-                DialogResult = DialogResult.None;
+                if (resultado.IsFailed)
+                {
+                    string erro = resultado.Errors[0].Message;
+
+                    TelaPrincipalForm.Tela.AtualizarRodape(erro);
+
+                    DialogResult = DialogResult.None;
+                }
             }
-
         }
     }
 }
