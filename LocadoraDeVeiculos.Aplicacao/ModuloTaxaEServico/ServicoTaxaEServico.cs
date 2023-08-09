@@ -1,4 +1,5 @@
-﻿using LocadoraDeVeiculos.Dominio.ModuloTaxaEServico;
+﻿using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloTaxaEServico;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloTaxaEServico
 {
@@ -6,11 +7,13 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloTaxaEServico
     {
         private IRepositorioTaxaEServico repositorioTaxaEServico;
         private IValidadorTaxaEServico validadorTaxaEServico;
+        private readonly IContextoPersistencia contextoPersistencia;
 
-        public ServicoTaxaEServico(IRepositorioTaxaEServico repositorioTaxaEServico, IValidadorTaxaEServico validadorTaxaEServico)
+        public ServicoTaxaEServico(IRepositorioTaxaEServico repositorioTaxaEServico, IValidadorTaxaEServico validadorTaxaEServico, IContextoPersistencia contextoPersistencia)
         {
             this.repositorioTaxaEServico = repositorioTaxaEServico;
             this.validadorTaxaEServico = validadorTaxaEServico;
+            this.contextoPersistencia = contextoPersistencia;
         }
 
         public Result Inserir(TaxaEServico taxaEServico)
@@ -20,11 +23,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloTaxaEServico
             List<string> erros = ValidarTaxaEServico(taxaEServico);
 
             if (erros.Count() > 0)
-                return Result.Fail(erros); //cenário 2
+
+                contextoPersistencia.DesfazerAlteracoes();
+
+            return Result.Fail(erros); //cenário 2
 
             try
             {
                 repositorioTaxaEServico.Inserir(taxaEServico);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Taxa/Servico {TaxaEServicoId} inserido com sucesso", taxaEServico.id);
 
@@ -47,11 +55,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloTaxaEServico
             List<string> erros = ValidarTaxaEServico(taxaEServico);
 
             if (erros.Count() > 0)
-                return Result.Fail(erros);
+            {
+                contextoPersistencia.DesfazerAlteracoes();
 
+                return Result.Fail(erros);
+            }
             try
             {
                 repositorioTaxaEServico.Editar(taxaEServico);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Taxa/Servico {TaxaEServicoId} editado com sucesso", taxaEServico.id);
 
@@ -84,12 +97,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloTaxaEServico
 
                 repositorioTaxaEServico.Excluir(taxaEServico);
 
+                contextoPersistencia.GravarDados();
+
                 Log.Debug("Taxa/Servico {TaxaEServicoId} excluído com sucesso", taxaEServico.id);
 
                 return Result.Ok();
             }
             catch (SqlException ex)
             {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 List<string> erros = new List<string>();
               
                 string msgErro;

@@ -66,7 +66,7 @@ namespace LocadoraDeVeiculos.WinApp
 
             Tela = this;
 
-            IoC = new IoC_ComInjecaoDependencia(); 
+            IoC = new IoC_ComInjecaoDependencia();
 
             lableRodape.Text = string.Empty;
 
@@ -74,7 +74,7 @@ namespace LocadoraDeVeiculos.WinApp
 
             controladores = new Dictionary<string, ControladorBase>();
 
-         
+
         }
 
         private void cuponsMenuItem_Click(object sender, EventArgs e)
@@ -130,8 +130,6 @@ namespace LocadoraDeVeiculos.WinApp
         private void alugueisMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(IoC.Get<ControladorAluguel>());
-
-           // ConfigurarTelaPrincipal(controladores["ControladorAluguel"]);
         }
 
         #region atualizar rodape

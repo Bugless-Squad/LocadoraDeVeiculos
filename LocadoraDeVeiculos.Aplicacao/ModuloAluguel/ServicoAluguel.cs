@@ -1,4 +1,5 @@
-﻿using LocadoraDeVeiculos.Dominio.ModuloAluguel;
+﻿using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloAluguel;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel
 {
@@ -6,11 +7,13 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel
     {
         private IRepositorioAluguel repositorioAluguel;
         private IValidadorAluguel validadorAluguel;
+        private readonly IContextoPersistencia contextoPersistencia;
 
-        public ServicoAluguel(IRepositorioAluguel repositorioAluguel, IValidadorAluguel validadorAluguel)
+        public ServicoAluguel(IRepositorioAluguel repositorioAluguel, IValidadorAluguel validadorAluguel, IContextoPersistencia contextoPersistencia)
         {
             this.repositorioAluguel = repositorioAluguel;
             this.validadorAluguel = validadorAluguel;
+            this.contextoPersistencia = contextoPersistencia;
         }
 
         //public Result Configurar(Aluguel aluguel)
