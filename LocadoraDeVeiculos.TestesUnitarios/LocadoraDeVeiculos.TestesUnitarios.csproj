@@ -22,11 +22,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Dominio\" />
-		<Folder Include="Aplicacao\" />
+		<Folder Include="ModuloParceiro\" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\LocadoraDeVeiculos.Aplicacao\LocadoraDeVeiculos.Aplicacao.csproj" />
 	  <ProjectReference Include="..\LocadoraDeVeiculos.Dominio\LocadoraDeVeiculos.Dominio.csproj" />
 	</ItemGroup>
 

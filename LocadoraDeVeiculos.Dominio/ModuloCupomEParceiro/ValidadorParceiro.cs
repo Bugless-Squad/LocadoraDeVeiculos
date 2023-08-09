@@ -15,7 +15,10 @@ namespace LocadoraDeVeiculos.Dominio.ModuloCupomEParceiro
                 .NotEmpty()
                 .NotNull()
                 .MinimumLength(3)
-                .NaoPodeCaracteresEspeciais();
+                .NaoPodeCaracteresEspeciais()
+                .NaoPodeNumeros();
+                
         }
     }
+
 }
