@@ -33,6 +33,7 @@ namespace LocadoraDeVeiculos.TestesIntegracao.Compartilhado
 {
     public class LocacaoIntegracaoBase
     {
+        protected IContextoPersistencia contextoPersistencia;
         public IRepositorioFuncionario repositorioFuncionario;
         public IRepositorioCliente repositorioCliente;
         public IRepositorioAutomovel repositorioAutomovel;
@@ -56,28 +57,30 @@ namespace LocadoraDeVeiculos.TestesIntegracao.Compartilhado
 
             var dbContext = new LocadoraDeVeiculosDbContext(optionsBuilder.Options);
 
-            repositorioFuncionario = new RepositorioFuncionarioEmOrm(dbContext);
-            repositorioCliente = new RepositorioClienteEmOrm(dbContext);
-            repositorioAutomovel = new RepositorioAutomovelEmOrm(dbContext);
-            repositorioCondutor = new RepositorioCondutorEmOrm(dbContext);
-            repositorioCupom = new RepositorioCupomEmOrm(dbContext);
-         //   repositorioParceiro = RepositorioParceiroEmOrm(dbContext);
+            contextoPersistencia = dbContext;
+
             repositorioGrupoAutomovel = new RepositorioGrupoAutomovelEmOrm(dbContext);
             repositorioPlanoCobranca = new RepositorioPlanoCobrancaEmOrm(dbContext);
             repositorioTaxaEServico = new RepositorioTaxaEServicoEmOrm(dbContext);
-            // repositorioAluguel = new RepositorioAluguelEmOrm 
+            repositorioFuncionario = new RepositorioFuncionarioEmOrm(dbContext);
+            repositorioAutomovel = new RepositorioAutomovelEmOrm(dbContext);
+            repositorioCondutor = new RepositorioCondutorEmOrm(dbContext);
+            repositorioParceiro = new RepositorioParceiroEmOrm(dbContext);
+            //repositorioAluguel = new RepositorioAluguelEmOrm(dbContext); 
+            repositorioCliente = new RepositorioClienteEmOrm(dbContext);
+            repositorioCupom = new RepositorioCupomEmOrm(dbContext);
 
 
-            BuilderSetup.SetCreatePersistenceMethod<Funcionario>(repositorioFuncionario.Inserir);
-            BuilderSetup.SetCreatePersistenceMethod<Cliente>(repositorioCliente.Inserir);
-            BuilderSetup.SetCreatePersistenceMethod<Automovel>(repositorioAutomovel.Inserir);
-            BuilderSetup.SetCreatePersistenceMethod<Condutor>(repositorioCondutor.Inserir);
-            BuilderSetup.SetCreatePersistenceMethod<Cupom>(repositorioCupom.Inserir);
-         //   BuilderSetup.SetCreatePersistenceMethod<Parceiro>(repositorioParceiro.Inserir);
             BuilderSetup.SetCreatePersistenceMethod<GrupoAutomovel>(repositorioGrupoAutomovel.Inserir);
             BuilderSetup.SetCreatePersistenceMethod<PlanoCobranca>(repositorioPlanoCobranca.Inserir);
             BuilderSetup.SetCreatePersistenceMethod<TaxaEServico>(repositorioTaxaEServico.Inserir);
+            BuilderSetup.SetCreatePersistenceMethod<Funcionario>(repositorioFuncionario.Inserir);
+            BuilderSetup.SetCreatePersistenceMethod<Automovel>(repositorioAutomovel.Inserir);
+            BuilderSetup.SetCreatePersistenceMethod<Condutor>(repositorioCondutor.Inserir);
+            BuilderSetup.SetCreatePersistenceMethod<Parceiro>(repositorioParceiro.Inserir);
            // BuilderSetup.SetCreatePersistenceMethod<Aluguel>(repositorioAluguel.Inserir);
+            BuilderSetup.SetCreatePersistenceMethod<Cliente>(repositorioCliente.Inserir);
+            BuilderSetup.SetCreatePersistenceMethod<Cupom>(repositorioCupom.Inserir);
         }
 
         protected static void LimparTabelas()
