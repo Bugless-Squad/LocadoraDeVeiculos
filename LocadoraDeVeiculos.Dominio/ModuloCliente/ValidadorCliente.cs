@@ -10,6 +10,7 @@ namespace LocadoraDeVeiculos.Dominio.ModuloCliente
                 .NotEmpty()
                 .NotNull()
                 .MinimumLength(3)
+                .NaoPodeDigitarNumeros()
                 .NaoPodeCaracteresEspeciais();
 
             RuleFor(x => x.email)
@@ -32,7 +33,7 @@ namespace LocadoraDeVeiculos.Dominio.ModuloCliente
                     .VerificaFormatoCpf();
 
                 RuleFor(x => x.cnpj)
-                    .Empty(); 
+                    .Empty();
             });
 
             When(x => x.tipoPessoa == "Pessoa Jurídica", () =>
@@ -43,7 +44,7 @@ namespace LocadoraDeVeiculos.Dominio.ModuloCliente
                     .VerificaFormatoCnpj();
 
                 RuleFor(x => x.cpf)
-                    .Empty(); 
+                    .Empty();
             });
 
             RuleFor(x => x.cep)
@@ -52,7 +53,24 @@ namespace LocadoraDeVeiculos.Dominio.ModuloCliente
                 .VerificaFormatoCep();
 
             RuleFor(x => x.estado)
+                .NotEmpty()
+                .NaoPodeCaracteresEspeciais()
                 .VerificaSePreencheu();
+
+            RuleFor(x => x.cidade)
+                .NotEmpty()
+                .NotNull()
+                .NaoPodeCaracteresEspeciais();
+
+            RuleFor(x => x.bairro)
+                .NotEmpty()
+                .NotNull()
+                .NaoPodeCaracteresEspeciais();
+
+            RuleFor(x => x.rua)
+                .NotEmpty()
+                .NotNull()
+                .NaoPodeCaracteresEspeciais();
 
             RuleFor(x => x.numero)
                 .NotEmpty()

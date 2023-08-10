@@ -133,7 +133,7 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCliente
             if (clienteEncontrado != null &&
                clienteEncontrado.id != cliente.id &&
                clienteEncontrado.nome == cliente.nome)
-                return true;
+            return true;
 
             return false;
         }

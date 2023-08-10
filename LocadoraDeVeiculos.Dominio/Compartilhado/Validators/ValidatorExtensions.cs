@@ -1,10 +1,17 @@
-﻿namespace LocadoraDeVeiculos.Dominio.Compartilhado.Validators
+﻿using LocadoraDeVeiculos.Dominio.ModuloCupomEParceiro;
+
+namespace LocadoraDeVeiculos.Dominio.Compartilhado.Validators
 {
     public static class ValidatorExtensions
     {
         public static IRuleBuilderOptions<T, string> NaoPodeCaracteresEspeciais<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder.SetValidator(new NaoPodeCaracteresEspeciaisValidator<T>());
+        }
+
+        public static IRuleBuilderOptions<T, string> NaoPodeDigitarNumeros<T>(this IRuleBuilder<T, string> ruleBuilder)
+        {
+            return ruleBuilder.SetValidator(new NaoPodeDigitarNumerosValidator<T>());
         }
 
         public static IRuleBuilderOptions<T, string> PodeApenasLetras<T>(this IRuleBuilder<T, string> ruleBuilder)

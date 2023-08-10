@@ -9,6 +9,7 @@ namespace LocadoraDeVeiculos.Dominio.ModuloCupomEParceiro
             RuleFor(x => x.nome)
                 .NotEmpty()
                 .NotNull()
+                .NaoPodeCaracteresEspeciais()
                 .MinimumLength(3);
 
             RuleFor(x => x.validade)
