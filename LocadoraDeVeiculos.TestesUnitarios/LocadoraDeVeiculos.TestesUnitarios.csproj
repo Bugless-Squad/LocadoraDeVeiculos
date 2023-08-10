@@ -22,7 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="ModuloParceiro\" />
+		<Folder Include="Dominio\ModuloPlanoCobranca\" />
+		<Folder Include="Dominio\ModuloTaxaEServico\" />
 	</ItemGroup>
 
 	<ItemGroup>

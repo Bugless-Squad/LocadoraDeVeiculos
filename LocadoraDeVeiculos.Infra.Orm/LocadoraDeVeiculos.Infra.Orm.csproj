@@ -15,11 +15,11 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\LocadoraDeVeiculos.Dominio\LocadoraDeVeiculos.Dominio.csproj" />
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\LocadoraDeVeiculos.Dominio\LocadoraDeVeiculos.Dominio.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

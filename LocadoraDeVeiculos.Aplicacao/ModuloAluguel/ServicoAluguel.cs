@@ -1,4 +1,5 @@
 ﻿using LocadoraDeVeiculos.Dominio.ModuloAluguel;
+using LocadoraDeVeiculos.Dominio.ModuloCliente;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel
 {
@@ -12,42 +13,5 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel
             this.repositorioAluguel = repositorioAluguel;
             this.validadorAluguel = validadorAluguel;
         }
-
-        //public Result Configurar(Aluguel aluguel)
-        //{
-        //    Log.Debug("Tentando inserir aluguel...{@d}", aluguel);
-
-        //    //.....
-        //}
-        
-        //public Result Editar(Aluguel aluguel)
-        //{
-        //    Log.Debug("Tentando editar aluguel...{@d}", aluguel);
-            
-        //    //.........
-        //}
-
-        //public Result Excluir(Aluguel aluguel)
-        //{
-        //    Log.Debug("Tentando excluir aluguel...{@d}", aluguel);
-
-        //    try
-        //    {
-        //        //............
-
-        //        return Result.Ok();
-        //    }
-        //    catch (SqlException ex)
-        //    {
-        //        //..........
-
-        //        //return Result.Fail(erros);
-        //    }
-        //}
-
-        //private List<string> ValidarAluguel(Aluguel aluguel)
-        //{
-        //  //..............
-        //}
     }
 }
