@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /LocadoraDeVeiculos.TestesUnitarios/LocadoraDeVeiculos.TestesUnitarios.csproj
+/LocadoraDeVeiculos.TestesUnitarios/Dominio/ModuloAluguel/ServicoAluguelTest.cs
