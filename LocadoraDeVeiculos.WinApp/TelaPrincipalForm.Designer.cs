@@ -357,6 +357,7 @@
             // 
             // planosDeCobrançaToolStripMenuItem
             // 
+            planosDeCobrançaToolStripMenuItem.Image = (Image)resources.GetObject("planosDeCobrançaToolStripMenuItem.Image");
             planosDeCobrançaToolStripMenuItem.Name = "planosDeCobrançaToolStripMenuItem";
             planosDeCobrançaToolStripMenuItem.Size = new Size(203, 22);
             planosDeCobrançaToolStripMenuItem.Text = "Planos de cobrança";
@@ -364,6 +365,7 @@
             // 
             // automoveisToolStripMenuItem
             // 
+            automoveisToolStripMenuItem.Image = (Image)resources.GetObject("automoveisToolStripMenuItem.Image");
             automoveisToolStripMenuItem.Name = "automoveisToolStripMenuItem";
             automoveisToolStripMenuItem.Size = new Size(203, 22);
             automoveisToolStripMenuItem.Text = "Automoveis";
@@ -371,6 +373,7 @@
             // 
             // clientesToolStripMenuItem
             // 
+            clientesToolStripMenuItem.Image = (Image)resources.GetObject("clientesToolStripMenuItem.Image");
             clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
             clientesToolStripMenuItem.Size = new Size(203, 22);
             clientesToolStripMenuItem.Text = "Clientes";
@@ -385,6 +388,7 @@
             // 
             // taxasEServiçosToolStripMenuItem
             // 
+            taxasEServiçosToolStripMenuItem.Image = (Image)resources.GetObject("taxasEServiçosToolStripMenuItem.Image");
             taxasEServiçosToolStripMenuItem.Name = "taxasEServiçosToolStripMenuItem";
             taxasEServiçosToolStripMenuItem.Size = new Size(203, 22);
             taxasEServiçosToolStripMenuItem.Text = "Taxas e serviços";
@@ -399,6 +403,7 @@
             // 
             // cuponsEParceirosToolStripMenuItem
             // 
+            cuponsEParceirosToolStripMenuItem.Image = (Image)resources.GetObject("cuponsEParceirosToolStripMenuItem.Image");
             cuponsEParceirosToolStripMenuItem.Name = "cuponsEParceirosToolStripMenuItem";
             cuponsEParceirosToolStripMenuItem.Size = new Size(203, 22);
             cuponsEParceirosToolStripMenuItem.Text = "Cupons";
@@ -406,6 +411,7 @@
             // 
             // configuraçãoDePreçosToolStripMenuItem
             // 
+            configuraçãoDePreçosToolStripMenuItem.Image = (Image)resources.GetObject("configuraçãoDePreçosToolStripMenuItem.Image");
             configuraçãoDePreçosToolStripMenuItem.Name = "configuraçãoDePreçosToolStripMenuItem";
             configuraçãoDePreçosToolStripMenuItem.Size = new Size(203, 22);
             configuraçãoDePreçosToolStripMenuItem.Text = "Configuração de preços ";

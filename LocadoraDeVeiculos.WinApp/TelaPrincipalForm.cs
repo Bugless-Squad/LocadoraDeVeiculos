@@ -49,6 +49,8 @@ namespace LocadoraDeVeiculos.WinApp
     {
         private Dictionary<string, ControladorBase> controladores { get; set; }
         public static TelaPrincipalForm Tela { get; private set; }
+
+        private IoC IoC;
         private ControladorBase controlador { get; set; }
 
         public TelaPrincipalForm()
@@ -59,187 +61,70 @@ namespace LocadoraDeVeiculos.WinApp
 
             Tela = this;
 
+            IoC = new IoC_ComInjecaoDependencia();
+
             lableRodape.Text = string.Empty;
 
             labelTipoDoCadastro.Text = string.Empty;
 
             controladores = new Dictionary<string, ControladorBase>();
 
-            ConfigurarControladores();
-        }
 
-        private void ConfigurarControladores()
-        {
-            var configuracao = new ConfigurationBuilder()
-              .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json")
-              .Build();
-
-            var connectionString = configuracao.GetConnectionString("SqlServer");
-
-            var optionsBuilder = new DbContextOptionsBuilder<LocadoraDeVeiculosDbContext>();
-
-            optionsBuilder.UseSqlServer(connectionString);
-
-            var dbContext = new LocadoraDeVeiculosDbContext(optionsBuilder.Options);
-
-            var migracoesPendentes = dbContext.Database.GetPendingMigrations();
-
-            if (migracoesPendentes.Count() > 0)
-            {
-                dbContext.Database.Migrate();
-            }
-
-            IRepositorioGrupoAutomovel repositorioGrupoAutomovel = new RepositorioGrupoAutomovelEmOrm(dbContext);
-
-            ValidadorGrupoAutomovel validadorGrupoAutomovel = new();
-
-            ServicoGrupoAutomovel servicoGrupoAutomovel = new(repositorioGrupoAutomovel, validadorGrupoAutomovel);
-
-            controladores.Add("ControladorGrupoAutomovel", new ControladorGrupoAutomovel(repositorioGrupoAutomovel, servicoGrupoAutomovel));
-
-            IRepositorioAutomovel repositorioAutomovel = new RepositorioAutomovelEmOrm(dbContext);
-
-            ValidadorAutomovel validadorAutomovel = new();
-
-            ServicoAutomovel servicoAutomovel = new(repositorioAutomovel, validadorAutomovel);
-
-            controladores.Add("ControladorAutomovel", new ControladorAutomovel(repositorioAutomovel, repositorioGrupoAutomovel, servicoAutomovel));
-
-            IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco = new RepositorioConfigPrecoEmJson(carregarDados: true);
-
-            ValidadorConfiguracaoPreco validadorConfiguracaoPreco = new();
-
-            ServicoConfiguracaoPreco servicoConfiguracaoPreco = new(repositorioConfiguracaoPreco, validadorConfiguracaoPreco);
-
-            controladores.Add("ControladorConfigPreco", new ControladorConfigPreco(repositorioConfiguracaoPreco, servicoConfiguracaoPreco));
-
-            IRepositorioTaxaEServico repositorioTaxaEServico = new RepositorioTaxaEServicoEmOrm(dbContext);
-
-            ValidadorTaxaEServico validadorTaxaEServico = new();
-
-            ServicoTaxaEServico servicoTaxaEServico = new(repositorioTaxaEServico, validadorTaxaEServico);
-
-            controladores.Add("ControladorTaxaEServico", new ControladorTaxaEServico(repositorioTaxaEServico, servicoTaxaEServico));
-
-            IRepositorioParceiro repositorioParceiro = new RepositorioParceiroEmOrm(dbContext);
-
-            ValidadorParceiro validadorParceiro = new();
-
-            ServicoParceiro servicoParceiro = new(repositorioParceiro, validadorParceiro);
-
-            controladores.Add("ControladorParceiro", new ControladorParceiro(repositorioParceiro, servicoParceiro));
-
-            IRepositorioFuncionario repositorioFuncionario = new RepositorioFuncionarioEmOrm(dbContext);
-
-            ValidadorFuncionario validadorFuncionario = new();
-
-            ServicoFuncionario servicoFuncionario = new(repositorioFuncionario, validadorFuncionario);
-
-            controladores.Add("ControladorFuncionario", new ControladorFuncionario(repositorioFuncionario, servicoFuncionario));
-
-            IRepositorioCliente repositorioCliente = new RepositorioClienteEmOrm(dbContext);
-
-            IRepositorioCondutor repositorioCondutor = new RepositorioCondutorEmOrm(dbContext);
-
-            ValidadorCliente validadorCliente = new();
-
-            ServicoCliente servicoCliente = new(repositorioCliente, validadorCliente);
-
-            controladores.Add("ControladorCliente", new ControladorCliente(repositorioCliente, servicoCliente, repositorioCondutor));
-
-            IRepositorioCupom repositorioCupom = new RepositorioCupomEmOrm(dbContext);
-
-            ValidadorCupom validadorCupom = new();
-
-            ServicoCupom servicoCupom = new(repositorioCupom, validadorCupom);
-
-            controladores.Add("ControladorCupom", new ControladorCupom(repositorioCupom, servicoCupom, repositorioParceiro));
-
-            ValidadorCondutor validadorCondutor = new();
-
-            ServicoCondutor servicoCondutor = new(repositorioCondutor, validadorCondutor);
-
-            controladores.Add("ControladorCondutor", new ControladorCondutor(repositorioCondutor, servicoCondutor, repositorioCliente));
-
-            IRepositorioPlanoCobranca repositorioPlanoCobranca = new RepositorioPlanoCobrancaEmOrm(dbContext);
-
-            ValidadorPlanoCobranca validadorPlanoCobranca = new();
-
-            ServicoPlanoCobranca servicoPlanoCobranca = new(repositorioPlanoCobranca, validadorPlanoCobranca);
-
-            controladores.Add("ControladorPlanoCobranca", new ControladorPlanoCobranca(repositorioPlanoCobranca, servicoPlanoCobranca, repositorioGrupoAutomovel));
-
-            IRepositorioAluguel repositorioAluguel = new RepositorioAluguelEmOrm(dbContext);
-
-            ValidadorAluguel validadorAluguel = new();
-
-            ServicoAluguel servicoAluguel = new(repositorioAluguel, validadorAluguel);
-
-            //controladores.Add("ControladorAluguel", new ControladorAluguel(repositorioAluguel, servicoAluguel));
         }
 
         private void cuponsMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorParceiro"]);
-
-            ConfigurarTelaPrincipal(controladores["ControladorCupom"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorCupom>());
         }
 
         private void funcionariosMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorFuncionario"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorFuncionario>());
         }
 
         private void grupoDeAutomoveisMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorGrupoAutomovel"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorGrupoAutomovel>());
         }
 
         private void planosDeCobrancaMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorGrupoAutomovel"]);
-
-            ConfigurarTelaPrincipal(controladores["ControladorPlanoCobranca"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorPlanoCobranca>());
         }
 
         private void automoveisMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarListagem(controladores["ControladorGrupoAutomovel"]);
-
-            ConfigurarTelaPrincipal(controladores["ControladorAutomovel"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorAutomovel>());
         }
 
         private void clientesMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorCliente"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorCliente>());
         }
 
         private void condutoresMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorCliente"]);
-
-            ConfigurarTelaPrincipal(controladores["ControladorCondutor"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorCondutor>());
         }
 
         private void taxasEServiçosMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorTaxaEServico"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorTaxaEServico>());
         }
 
         private void parceirosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorParceiro"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorParceiro>());
         }
 
         private void configuracaoDePrecosMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorConfigPreco"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorConfigPreco>());
         }
 
         private void alugueisMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurarTelaPrincipal(controladores["ControladorAluguel"]);
+            ConfigurarTelaPrincipal(IoC.Get<ControladorAluguel>());
         }
 
         #region atualizar rodape

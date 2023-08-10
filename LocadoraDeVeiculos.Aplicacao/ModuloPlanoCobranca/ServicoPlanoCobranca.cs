@@ -6,11 +6,13 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca
     {
         private IRepositorioPlanoCobranca repositorioPlanoCobranca;
         private IValidadorPlanoCobranca validadorPlanoCobranca;
+        private readonly IContextoPersistencia contextoPersistencia;
 
-        public ServicoPlanoCobranca(IRepositorioPlanoCobranca repositorioPlanoCobranca, IValidadorPlanoCobranca validadorPlanoCobranca)
+        public ServicoPlanoCobranca(IRepositorioPlanoCobranca repositorioPlanoCobranca, IValidadorPlanoCobranca validadorPlanoCobranca, IContextoPersistencia contextoPersistencia)
         {
             this.repositorioPlanoCobranca = repositorioPlanoCobranca;
             this.validadorPlanoCobranca = validadorPlanoCobranca;
+            this.contextoPersistencia = contextoPersistencia;
         }
 
         public Result Inserir(PlanoCobranca registro)
@@ -20,12 +22,18 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca
             List<string> erros = validarPlanoCobranca(registro);
 
             if (erros.Count() > 0)
+            {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 return Result.Fail(erros);
+            }
             try
             {
                 //registro.grupoAutomovel.tiposPlano.Add(registro.tipoPlano);
 
                 repositorioPlanoCobranca.Inserir(registro);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Plano {PlanoCobrancaId} inserido com sucesso.", registro.id);
 
@@ -48,10 +56,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca
             List<string> erros = validarPlanoCobranca(registro);
 
             if (erros.Count() > 0)
+            {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 return Result.Fail(erros);
+            }
             try
             {
                 repositorioPlanoCobranca.Editar(registro);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Plano {planoCobrancaId} editado com sucesso", registro.id);
 
@@ -83,6 +97,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca
 
                 repositorioPlanoCobranca.Excluir(planoCobrancaSelecionado);
 
+                contextoPersistencia.GravarDados();
+
                 Log.Debug("Plano {PlanoCobrancaId} excluido com sucesso.", planoCobrancaSelecionado.id);
 
                 return Result.Ok();
@@ -90,6 +106,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca
             }
             catch (Exception exc)
             {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 List<string> erros = new();
 
                 string msgErro;

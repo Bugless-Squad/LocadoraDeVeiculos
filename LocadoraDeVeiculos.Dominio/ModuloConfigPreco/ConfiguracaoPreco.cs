@@ -1,6 +1,6 @@
 ﻿namespace LocadoraDeVeiculos.Dominio.ModuloConfigPreco
 {
-    public class ConfiguracaoPreco 
+    public class ConfiguracaoPreco
     {
         public decimal precoGasolina { get; set; }
         public decimal precoDisel { get; set; }

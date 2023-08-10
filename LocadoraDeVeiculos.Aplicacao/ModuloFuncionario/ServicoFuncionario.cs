@@ -1,4 +1,5 @@
-﻿using LocadoraDeVeiculos.Dominio.ModuloFuncionario;
+﻿using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloFuncionario;
 using LocadoraDeVeiculos.Dominio.ModuloGrupoAutomovel;
 
 
@@ -6,13 +7,17 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloFuncionario
 {
     public class ServicoFuncionario
     {
-        private IRepositorioFuncionario repositorioFuncionario;
-        private IValidadorFuncionario validadorFuncionario;
+        private readonly IRepositorioFuncionario repositorioFuncionario;
+        private readonly IValidadorFuncionario validadorFuncionario;
+        private readonly IContextoPersistencia contextoPersistencia;
 
-        public ServicoFuncionario(IRepositorioFuncionario repositorioFuncionario, IValidadorFuncionario validadorFuncionario)
+        public ServicoFuncionario(IRepositorioFuncionario repositorioFuncionario, 
+            IValidadorFuncionario validadorFuncionario, 
+            IContextoPersistencia contextoPersistencia)
         {
             this.repositorioFuncionario = repositorioFuncionario;
             this.validadorFuncionario = validadorFuncionario;
+            this.contextoPersistencia = contextoPersistencia;
         }
 
         public Result Inserir(Funcionario funcionario) 
@@ -22,11 +27,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloFuncionario
             List<string> erros = ValidarFuncionario(funcionario);
 
             if (erros.Count() > 0)
-                return Result.Fail(erros); //cenário 2
+            {
+                contextoPersistencia.DesfazerAlteracoes();
 
+                return Result.Fail(erros);
+            }
             try
             {
                 repositorioFuncionario.Inserir(funcionario);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Funcionario {GrupoAutomovelId} inserido com sucesso", funcionario.id);
 
@@ -49,10 +59,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloFuncionario
             List<string> erros = ValidarFuncionario(funcionario);
 
             if (erros.Count() > 0)
+            {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 return Result.Fail(erros);
+            }
             try
             {
                 repositorioFuncionario.Editar(funcionario);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Funcionario {funcionarioId} editado com sucesso", funcionario.id);
 
@@ -85,12 +101,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloFuncionario
 
                 repositorioFuncionario.Excluir(funcionario);
 
+                contextoPersistencia.GravarDados();
+
                 Log.Debug("Funcionario {funcionarioId} excluido com sucesso", funcionario.id);
 
                 return Result.Ok();
             }
             catch (Exception exc)
             {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 List<string> erros = new();
 
                 string msgErro;

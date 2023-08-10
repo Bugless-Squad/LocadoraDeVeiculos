@@ -1,16 +1,19 @@
-﻿using LocadoraDeVeiculos.Dominio.ModuloConfigPreco;
+﻿using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloConfigPreco;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloConfigPreco
 {
     public class ServicoConfiguracaoPreco
     {
-        private IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco;
-        private IValidadorConfiguracaoPreco validadorConfiguracaoPreco;
+        private readonly IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco;
+        private readonly IValidadorConfiguracaoPreco validadorConfiguracaoPreco;
+        private readonly IContextoPersistencia contextoPersistencia;
 
-        public ServicoConfiguracaoPreco(IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco, IValidadorConfiguracaoPreco validadorConfiguracaoPreco)
+        public ServicoConfiguracaoPreco(IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco, IValidadorConfiguracaoPreco validadorConfiguracaoPreco, IContextoPersistencia contextoPersistencia)
         {
             this.repositorioConfiguracaoPreco = repositorioConfiguracaoPreco;
             this.validadorConfiguracaoPreco = validadorConfiguracaoPreco;
+            this.contextoPersistencia = contextoPersistencia;
         }
 
         public Result Configurar(ConfiguracaoPreco configuracaoPreco)

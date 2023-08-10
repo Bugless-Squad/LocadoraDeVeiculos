@@ -11,7 +11,7 @@ using FluentValidation.Results;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 using GeradorTestes.TestesUnitarios.Compartilhado;
 
-namespace LocadoraDeVeiculos.TestesUnitarios.Dominio.ModuloPlanoCobranca
+namespace LocadoraDeVeiculos.TestesUnitarios.Dominio.ModuloParceiroECupom
 {
     [TestClass]
     public class ServicoPlanoCobrancaTest
@@ -61,25 +61,25 @@ namespace LocadoraDeVeiculos.TestesUnitarios.Dominio.ModuloPlanoCobranca
                 });
 
             var resultado = servicoPlanoCobranca.Inserir(planoCobranca);
-
+         
             resultado.IsSuccess.Should().BeFalse();
             repositorioPlanoCobrancaMoq.Verify(x => x.Inserir(planoCobranca), Times.Never());
         }
 
         [TestMethod]
-        public void Deve_editar_planoCobranca_caso_ele_seja_valido()
+        public void Deve_editar_planoCobranca_caso_ele_seja_valido() //cenário 1
         {
             validadorMoq.Setup(x => x.Validate(It.IsAny<PlanoCobranca>()))
                 .Returns(new ValidationResult());
 
             Result resultado = servicoPlanoCobranca.Editar(planoCobranca);
-
+ 
             resultado.IsSuccess.Should().BeTrue();
             repositorioPlanoCobrancaMoq.Verify(x => x.Editar(planoCobranca), Times.Once());
         }
 
         [TestMethod]
-        public void Nao_deve_editar_planoCobranca_caso_ele_seja_invalido()
+        public void Nao_deve_editar_planoCobranca_caso_ele_seja_invalido() //cenário 2
         {
             validadorMoq.Setup(x => x.Validate(It.IsAny<PlanoCobranca>()))
                 .Returns(() =>
@@ -90,13 +90,13 @@ namespace LocadoraDeVeiculos.TestesUnitarios.Dominio.ModuloPlanoCobranca
                 });
 
             var resultado = servicoPlanoCobranca.Editar(planoCobranca);
-
+            
             resultado.IsSuccess.Should().BeFalse();
             repositorioPlanoCobrancaMoq.Verify(x => x.Editar(planoCobranca), Times.Never());
         }
 
         [TestMethod]
-        public void Nao_deve_excluir_disciplina_caso_ela_nao_esteja_cadastrada()
+        public void Nao_deve_excluir_disciplina_caso_ela_nao_esteja_cadastrada() //cenário 2
         {
             repositorioPlanoCobrancaMoq.Setup(x => x.Existe(planoCobranca))
                .Returns(() =>

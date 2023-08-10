@@ -1,16 +1,21 @@
-﻿using LocadoraDeVeiculos.Dominio.ModuloCupomEParceiro;
+﻿using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloCupomEParceiro;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloCupomEParceiro
 {
     public class ServicoCupom
     {
-        private IRepositorioCupom repositorioCupom;
-        private IValidadorCupom validadorCupom;
+        private readonly IRepositorioCupom repositorioCupom;
+        private readonly IValidadorCupom validadorCupom;
+        private readonly IContextoPersistencia contextoPersistencia;
 
-        public ServicoCupom(IRepositorioCupom repositorioCupom, IValidadorCupom validadorCupom)
+        public ServicoCupom(IRepositorioCupom repositorioCupom, 
+            IValidadorCupom validadorCupom, 
+            IContextoPersistencia contextoPersistencia)
         {
             this.repositorioCupom = repositorioCupom;
             this.validadorCupom = validadorCupom;
+            this.contextoPersistencia = contextoPersistencia;
         }
 
         public Result Inserir(Cupom registro)
@@ -20,10 +25,17 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCupomEParceiro
             List<string> erros = ValidarCupom(registro);
 
             if (erros.Count() > 0)
+            {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 return Result.Fail(erros);
+
+            }
             try
             {
                 repositorioCupom.Inserir(registro);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Cupom {CupomId} inserido com sucesso.", registro.id);
 
@@ -47,10 +59,16 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCupomEParceiro
             List<string> erros = ValidarCupom(registro);
 
             if (erros.Count() > 0)
+            {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 return Result.Fail(erros);
+            }
             try
             {
                 repositorioCupom.Editar(registro);
+
+                contextoPersistencia.GravarDados();
 
                 Log.Debug("Cupom {cupomId} editado com sucesso", registro.id);
 
@@ -82,6 +100,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCupomEParceiro
 
                 repositorioCupom.Excluir(cupomSelecionado);
 
+                contextoPersistencia.GravarDados();
+
                 Log.Debug("Cupom {CupomId} excluido com sucesso.", cupomSelecionado.id);
 
                 return Result.Ok();
@@ -89,6 +109,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCupomEParceiro
             }
             catch (SqlException ex)
             {
+                contextoPersistencia.DesfazerAlteracoes();
+
                 List<string> erros = new List<string>();
                 string MsgErro;
 
