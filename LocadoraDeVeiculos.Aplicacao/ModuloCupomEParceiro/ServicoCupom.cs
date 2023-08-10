@@ -5,11 +5,13 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCupomEParceiro
 {
     public class ServicoCupom
     {
-        private IRepositorioCupom repositorioCupom;
-        private IValidadorCupom validadorCupom;
+        private readonly IRepositorioCupom repositorioCupom;
+        private readonly IValidadorCupom validadorCupom;
         private readonly IContextoPersistencia contextoPersistencia;
 
-        public ServicoCupom(IRepositorioCupom repositorioCupom, IValidadorCupom validadorCupom, IContextoPersistencia contextoPersistencia)
+        public ServicoCupom(IRepositorioCupom repositorioCupom, 
+            IValidadorCupom validadorCupom, 
+            IContextoPersistencia contextoPersistencia)
         {
             this.repositorioCupom = repositorioCupom;
             this.validadorCupom = validadorCupom;

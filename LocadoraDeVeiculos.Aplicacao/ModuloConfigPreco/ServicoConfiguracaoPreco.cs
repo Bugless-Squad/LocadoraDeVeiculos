@@ -5,8 +5,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloConfigPreco
 {
     public class ServicoConfiguracaoPreco
     {
-        private IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco;
-        private IValidadorConfiguracaoPreco validadorConfiguracaoPreco;
+        private readonly IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco;
+        private readonly IValidadorConfiguracaoPreco validadorConfiguracaoPreco;
         private readonly IContextoPersistencia contextoPersistencia;
 
         public ServicoConfiguracaoPreco(IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco, IValidadorConfiguracaoPreco validadorConfiguracaoPreco, IContextoPersistencia contextoPersistencia)

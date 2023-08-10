@@ -12,8 +12,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCondutor
 
     public class ServicoCondutor
     {
-        private IRepositorioCondutor repositorioCondutor;
-        private IValidadorCondutor validadorCondutor;
+        private readonly IRepositorioCondutor repositorioCondutor;
+        private readonly IValidadorCondutor validadorCondutor;
         private readonly IContextoPersistencia contextoPersistencia;
 
         public ServicoCondutor(IRepositorioCondutor repositorioCondutor, IValidadorCondutor validadorCondutor, IContextoPersistencia contextoPersistencia)

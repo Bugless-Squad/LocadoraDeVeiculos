@@ -11,8 +11,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCupomEParceiro
         private readonly IContextoPersistencia contextoPersistencia;
 
         public ServicoParceiro(IRepositorioParceiro repositorioParceiro,
-                                    IValidadorParceiro validadorParceiro,
-                                    IContextoPersistencia contextoPersistencia)
+                               IValidadorParceiro validadorParceiro,
+                               IContextoPersistencia contextoPersistencia)
         {
             this.repositorioParceiro = repositorioParceiro;
             this.validadorParceiro = validadorParceiro;

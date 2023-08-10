@@ -5,8 +5,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCliente
 {
     public class ServicoCliente
     {
-        private IRepositorioCliente repositorioCliente;
-        private IValidadorCliente validadorCliente;
+        private readonly IRepositorioCliente repositorioCliente;
+        private readonly IValidadorCliente validadorCliente;
         private readonly IContextoPersistencia contextoPersistencia;
 
         public ServicoCliente(IRepositorioCliente repositorioCliente, IValidadorCliente validadorCliente, IContextoPersistencia contextoPersistencia)
